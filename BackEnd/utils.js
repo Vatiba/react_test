@@ -16,7 +16,7 @@ module.exports = async (limit, offset, columnName, condition, field, client) => 
                break
             case 'contains':
                res = await client.query(`SELECT *, count(*) OVER() AS totalCount FROM "tableName" WHERE ${columnName}::text LIKE $1 order by "id" offset $2 limit $3;`,
-                  [field, offset, limit]);
+                  [`%${field}%`, offset, limit]);
                result.totalCount = parseInt(res.rows[0]?.totalcount);
                result.data = res.rows;
                break
